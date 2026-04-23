@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuropharmacology Quiz — 2017–2024</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f4ef;
+    --surface: #ffffff;
+    --surface2: #f0ede8;
+    --border: #e2ddd6;
+    --text: #1c1a17;
+    --text-soft: #6b6560;
+    --text-muted: #9e9891;
+    --accent: #2d6a4f;
+    --accent-light: #e8f4ef;
+    --accent-hover: #245a42;
+    --wrong: #c0392b;
+    --wrong-light: #fdf0ee;
+    --wrong-border: #e8b4ae;
+    --right: #1e7e5a;
+    --right-light: #eaf6f0;
+    --right-border: #a8d8c0;
+    --warn: #b8860b;
+    --warn-light: #fdf8e8;
+    --year-tag: #5c6f82;
+    --year-tag-bg: #e8edf2;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1.5px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  }
+  .header-title {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.2px;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .score-pill {
+    background: var(--accent-light);
+    border: 1.5px solid var(--right-border);
+    border-radius: 24px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    background: var(--surface);
+    padding: 0 32px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .progress-bar-track {
+    background: var(--surface2);
+    border-radius: 999px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--accent), #52b788);
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 36px 24px 80px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 36px 28px;
+    box-shadow: var(--shadow);
+    animation: slideIn 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .year-tag {
+    background: var(--year-tag-bg);
+    color: var(--year-tag);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .q-number {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .q-text {
+    font-family: 'Lora', serif;
+    font-size: 17.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 26px;
+  }
+
+  /* ── OPTIONS ── */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 14.5px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+    line-height: 1.5;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-btn:not(.disabled):hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    transform: translateX(2px);
+  }
+  .option-letter {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-soft);
+    background: var(--surface2);
+    flex-shrink: 0;
+    margin-top: 0px;
+    transition: all 0.18s;
+  }
+  .option-btn:not(.disabled):hover .option-letter {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* correct */
+  .option-btn.correct {
+    border-color: var(--right-border);
+    background: var(--right-light);
+    animation: pulse-green 0.4s ease;
+  }
+  .option-btn.correct .option-letter {
+    background: var(--right);
+    border-color: var(--right);
+    color: #fff;
+  }
+  @keyframes pulse-green {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+
+  /* wrong */
+  .option-btn.wrong {
+    border-color: var(--wrong-border);
+    background: var(--wrong-light);
+    animation: shake 0.38s ease;
+  }
+  .option-btn.wrong .option-letter {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: #fff;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%     { transform: translateX(-5px); }
+    60%     { transform: translateX(5px); }
+    80%     { transform: translateX(-3px); }
+  }
+
+  /* missed (correct answer shown after wrong pick) */
+  .option-btn.missed {
+    border-color: var(--right-border);
+    background: var(--right-light);
+  }
+  .option-btn.missed .option-letter {
+    background: var(--right);
+    border-color: var(--right);
+    color: #fff;
+  }
+
+  .option-btn.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* result badge */
+  .result-badge {
+    display: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-left: auto;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .correct .result-badge { display: block; background: var(--right); color: #fff; }
+  .wrong .result-badge { display: block; background: var(--wrong); color: #fff; }
+  .missed .result-badge { display: block; background: var(--right); color: #fff; }
+
+  /* ── FEEDBACK PANEL ── */
+  .feedback {
+    margin-top: 22px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1.5px solid transparent;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+  .feedback.show { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .feedback.correct-fb {
+    border-color: var(--right-border);
+    background: var(--right-light);
+  }
+  .feedback.wrong-fb {
+    border-color: var(--wrong-border);
+    background: var(--wrong-light);
+  }
+  .feedback-header {
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .correct-fb .feedback-header { color: var(--right); }
+  .wrong-fb .feedback-header { color: var(--wrong); }
+
+  .feedback-body {
+    padding: 0 16px 14px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text);
+    border-top: 1px solid var(--border);
+  }
+  .feedback-label {
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 12px 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-style: italic;
+  }
+  .verify-note {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--warn-light);
+    border: 1px solid #e8d898;
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--warn);
+    line-height: 1.55;
+  }
+  .verify-note strong { font-weight: 700; }
+
+  /* ── NEXT BUTTON ── */
+  .nav-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 26px;
+    gap: 12px;
+  }
+  .btn-next {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.18s, transform 0.15s;
+    letter-spacing: 0.2px;
+  }
+  .btn-next:hover { background: var(--accent-hover); transform: translateX(2px); }
+  .btn-next:disabled { background: var(--text-muted); cursor: default; transform: none; }
+
+  /* ── RESULTS SCREEN ── */
+  #results-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+    animation: slideIn 0.4s ease;
+  }
+  .results-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 40px;
+    max-width: 540px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .results-icon {
+    font-size: 52px;
+    margin-bottom: 16px;
+  }
+  .results-title {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .results-score {
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 16px 0 8px;
+    font-family: 'Lora', serif;
+  }
+  .results-sub {
+    color: var(--text-soft);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  .results-stats {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .stat-pill {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .stat-pill.good { background: var(--right-light); color: var(--right); border: 1.5px solid var(--right-border); }
+  .stat-pill.bad  { background: var(--wrong-light); color: var(--wrong); border: 1.5px solid var(--wrong-border); }
+  .btn-restart {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px 36px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.18s;
+    letter-spacing: 0.3px;
+  }
+  .btn-restart:hover { background: var(--accent-hover); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .header { padding: 14px 16px; }
+    .progress-wrap { padding: 0 16px 12px; }
+    .main { padding: 20px 12px 60px; }
+    .card { padding: 22px 18px 20px; }
+    .q-text { font-size: 16px; }
+    .option-btn { font-size: 13.5px; padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-title">Neuropharmacology Quiz</div>
+    <div class="header-sub">Past Papers 2017 – 2024</div>
+  </div>
+  <div class="score-pill">
+    <span>Score</span>
+    <span id="live-score">0 / 0</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span id="progress-text">Question 1 of 55</span>
+    <span id="progress-pct">0%</span>
+  </div>
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- QUIZ AREA -->
+<div class="main" id="quiz-area">
+  <div class="card" id="card">
+    <div class="card-meta">
+      <span class="year-tag" id="q-year"></span>
+      <span class="q-number" id="q-num"></span>
+    </div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-header" id="fb-header"></div>
+      <div class="feedback-body" id="fb-body"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-next" id="btn-next" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-screen">
+  <div class="results-card">
+    <div class="results-icon" id="results-icon">🎓</div>
+    <div class="results-title">Quiz Complete!</div>
+    <div class="results-score" id="results-score"></div>
+    <div class="results-sub" id="results-sub"></div>
+    <div class="results-stats">
+      <div class="stat-pill good" id="stat-correct"></div>
+      <div class="stat-pill bad"  id="stat-wrong"></div>
+    </div>
+    <button class="btn-restart" onclick="restart()">↺ Try Again</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  // ── 2017 ──
+  {
+    year: "2017", qNum: "Q12",
+    text: "An 18 year old girl was admitted to the hospital because she had paranoid delusions and auditory hallucination. She was given medications and the symptoms were treated. However soon she developed involuntary motor movements, the nurses had seen her moving her head to one side with jerking movements as well. What type of receptor did the drug block?",
+    options: ["A. Alpha adrenergic", "B. Dopaminergic", "C. Serotinergic", "D. Muscarinic", "E. GABAergic"],
+    correct: 1,
+    explanation: "The girl has psychosis (delusions + hallucinations) treated with an antipsychotic like Haloperidol. Antipsychotics block D2 (dopamine) receptors in the mesolimbic pathway to treat psychosis. The involuntary neck movements (acute dystonia) are extrapyramidal side effects from D2 blockade in the nigrostriatal pathway. Classic EPS presentation.",
+    verify: null
+  },
+  {
+    year: "2017", qNum: "Q55 / Q85",
+    text: "Mode of action of Diazepam",
+    options: ["A. Facilitates opening of chloride channels", "B. GABA analogue", "C. T type calcium blocker", "D. Sodium channel blocker"],
+    correct: 0,
+    explanation: "Diazepam is a benzodiazepine. It binds the BZD site on GABA-A receptors and increases the FREQUENCY of Cl⁻ channel opening — this potentiates GABAergic inhibition. Memory key: Benzodiazepine = Frequency ↑. Barbiturates = Duration ↑.",
+    verify: null
+  },
+  {
+    year: "2017", qNum: "Q58",
+    text: "What is the mode of action of Phenytoin?",
+    options: ["A. Sodium channel blockers", "B. Calcium channel blockers", "C. GABA potentiator", "D. Glutamate antagonist"],
+    correct: 0,
+    explanation: "Phenytoin blocks voltage-gated Na⁺ channels, stabilising the inactivated state and preventing repetitive neuronal firing during seizures. Used for GTC and partial seizures — NOT absence seizures.",
+    verify: null
+  },
+  {
+    year: "2017", qNum: "Q86",
+    text: "What is the rationale for giving midazolam with fentanyl during surgery?",
+    options: ["A. Achieve more analgesia.", "B. Short term amnesia.", "C. Counteracts tachycardia.", "D. Prevents high blood pressure.", "E. Prevents respiratory depression"],
+    correct: 1,
+    explanation: "Fentanyl provides analgesia (opioid). Midazolam is added specifically for its amnestic and anxiolytic properties — the patient will not recall intraoperative events. It provides no analgesia. This combination is standard in conscious sedation.",
+    verify: null
+  },
+  {
+    year: "2017", qNum: "Q90",
+    text: "Valproic acid acts on the receptor of a major activating neurotransmitter. The neurotransmitter is converted by an enzymatic reaction to a major inhibitory neurotransmitter that is found in the cerebellar cortex. What neurotransmitter is formed?",
+    options: ["A. Dopamine", "B. GABA", "C. Glycine", "D. Substance P", "E. Serotonin"],
+    correct: 1,
+    explanation: "The activating neurotransmitter is glutamate. Glutamate decarboxylase (GAD) converts glutamate → GABA, the major inhibitory neurotransmitter. Valproic acid enhances GABA activity. GABA is abundant in cerebellar cortex Purkinje cells. Glycine is mainly in the spinal cord, ruling it out.",
+    verify: null
+  },
+  {
+    year: "2017", qNum: "Q91",
+    text: "Patient with Parkinson's. His tremors can be controlled by",
+    options: ["A. COMT inhibitor", "B. Non-selective muscarinic blocker", "C. Dopamine agonist", "D. Dopamine precursor", "E. Beta blocker"],
+    correct: 1,
+    explanation: "Resting tremor in Parkinson's responds particularly well to anticholinergic drugs (non-selective muscarinic blockers like Benztropine). Dopaminergic drugs treat overall PD but anticholinergics are most effective specifically for tremor.",
+    verify: "Totes marks B (muscarinic blocker) for tremor specifically. If the question asked about overall PD management, dopamine precursor/agonist would apply. Context matters here."
+  },
+
+  // ── 2018 ──
+  {
+    year: "2018", qNum: "Q3",
+    text: "72-year-old man came with his daughter with pill rolling tremors, cog wheel rigidity, shuffling gait, and stooped posture. Which drug will inhibit metabolism of the neurotransmitter involved in the above case?",
+    options: ["A. Amantadine", "B. Levodopa", "C. Benztropine", "D. Selegiline", "E. Carbidopa"],
+    correct: 3,
+    explanation: "Diagnosis = Parkinson's → dopamine deficiency. Selegiline is a selective MAO-B inhibitor. MAO-B degrades dopamine, so selegiline inhibits dopamine metabolism, increasing its availability. Carbidopa inhibits peripheral DOPA decarboxylase (not dopamine breakdown in the brain). Levodopa is a precursor, not a metabolism inhibitor.",
+    verify: null
+  },
+  {
+    year: "2018", qNum: "Q18",
+    text: "A 60 year old man with a known history of depression complains of blurred vision, dry mouth, urinary retention and constipation. On history it is revealed that he has recently been prescribed a medication. What could the drug be?",
+    options: ["A. Fluoxetine", "B. Amitriptyline", "C. Citalopram", "D. Mirtazapine", "E. Tranylcypromine"],
+    correct: 1,
+    explanation: "Amitriptyline is a TCA. TCAs block muscarinic (M1) receptors causing classic anticholinergic BUDS: Blurred vision, Urinary retention, Dry mouth, Sedation/Constipation. SSRIs (fluoxetine, citalopram) do NOT cause these. Mirtazapine causes sedation/weight gain. Tranylcypromine is an MAOI.",
+    verify: null
+  },
+  {
+    year: "2018", qNum: "Q31",
+    text: "A man noticed an improvement in his sex life after taking a certain drug for depression. Previously he suffered from premature ejaculation. What is the name of the drug he used?",
+    options: ["A. Fluoxetine", "B. Bupropion"],
+    correct: 0,
+    explanation: "SSRIs like fluoxetine famously delay ejaculation — a side effect exploited therapeutically to treat premature ejaculation. Bupropion is actually the antidepressant with the LEAST sexual dysfunction (it does not delay ejaculation). Fluoxetine = delayed ejaculation.",
+    verify: null
+  },
+  {
+    year: "2018", qNum: "Q42",
+    text: "Lithium is primarily administered:",
+    options: ["A. Intravenously", "B. Intramuscularly", "C. Orally", "D. Subcutaneously", "E. Intradermally"],
+    correct: 2,
+    explanation: "Lithium is only available as oral tablets/capsules (lithium carbonate or lithium citrate). It cannot be given IV due to its narrow therapeutic index. This is a straightforward factual recall question asked repeatedly across years.",
+    verify: null
+  },
+  {
+    year: "2018", qNum: "Q44",
+    text: "Levodopa is absorbed:",
+    options: ["A. In small intestine with dairy", "B. In small intestine with acidic food", "C. In small intestine empty", "D. In stomach with dairy", "E. In stomach with acidic food"],
+    correct: 2,
+    explanation: "Levodopa is absorbed in the small intestine via amino acid transporters. High-protein meals (dairy, meat) compete with levodopa for absorption because it is an amino acid analogue. Therefore it is best taken on an EMPTY stomach for maximum absorption.",
+    verify: null
+  },
+  {
+    year: "2018", qNum: "Q48",
+    text: "A 28 year old woman presents with symptoms of myasthenia gravis (can't comb hair, etc). Tensilon test confirms diagnosis. She's given Physostigmine. Acute drug toxicity of the same class would result in which of the following symptoms?",
+    options: ["A. Urinary retention", "B. Miosis", "C. Tachycardia", "D. Constipation", "E. Dry skin"],
+    correct: 1,
+    explanation: "Physostigmine is an AChE inhibitor → increases ACh → cholinergic toxicity = SLUDGE. Miosis (pupil constriction) occurs from M3 stimulation. The wrong options (urinary retention, tachycardia, constipation, dry skin) are all ANTICHOLINERGIC effects — the exact opposite. Cholinergic overdose gives: Miosis, Bradycardia, Urinary incontinence, Diarrhoea, bronchospasm, Excess secretions.",
+    verify: null
+  },
+
+  // ── 2019 ──
+  {
+    year: "2019", qNum: "Q2",
+    text: "A person with seizures came to the ER after overdosing on cocaine. What will be the drug of choice?",
+    options: ["A. Phenytoin", "B. Lorazepam", "C. Carbamazepine", "D. Valproic acid", "E. Diazepam"],
+    correct: 1,
+    explanation: "For acute seizures in the ER (including cocaine-induced), benzodiazepines are first-line. Lorazepam is preferred over diazepam in the ER for longer CNS action. Phenytoin is second-line. Carbamazepine and valproic acid are chronic agents, not acute ER drugs.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q5",
+    text: "Mode of Action of Diazepam:",
+    options: ["A. Increases GABAergic effect", "B. GABA analogue", "C. Sodium channel blocker", "D. Calcium channel blocker"],
+    correct: 0,
+    explanation: "Diazepam potentiates GABA-A receptor activity by increasing the frequency of Cl⁻ channel opening. It does not mimic GABA (not an analogue) — it enhances its effect. The GABAergic increase is the core mechanism of all benzodiazepines.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q54",
+    text: "Lithium interferes with the re-synthesis of:",
+    options: ["A. Phosphatidylinositol bisphosphate (PIP2)", "B. Phosphatidylinositol monophosphate", "C. Phosphatidylinositol trisphosphate", "D. Phosphatidylinositol tetraphosphate", "E. Phosphatidylinositol pentaphosphate"],
+    correct: 0,
+    explanation: "Lithium inhibits inositol monophosphatase, the enzyme needed to recycle inositol for PIP2 synthesis. Less inositol recycling → less PIP2 → less substrate for phospholipase C → less IP3 and DAG produced as second messengers. This 'inositol depletion hypothesis' explains lithium's mood stabilising effect.",
+    verify: "The totes options use 'bisphosphonate' — the correct pharmacological term is phosphatidylinositol bisphosphate (PIP2). 'Bisphosphonate' is a typo in the exam paper."
+  },
+  {
+    year: "2019", qNum: "Q58",
+    text: "A patient with a long-term history of depression and glaucoma came to the ER with complains of blurred vision, urinary retention, constipation and dry mouth. He was recently given a new drug. The new drug was:",
+    options: ["A. Amitriptyline", "B. Fluoxetine"],
+    correct: 0,
+    explanation: "Recurring TCA question. Amitriptyline (TCA) causes anticholinergic BUDS. Critically, it is CONTRAINDICATED in narrow-angle glaucoma because anticholinergics dilate the pupil (mydriasis), raising intraocular pressure. Fluoxetine (SSRI) does not cause any of these symptoms.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q65",
+    text: "Haloperidol acts primarily by:",
+    options: ["A. Antagonizing D2 receptor", "B. Binding to 5 HT-2A receptors", "C. Increasing phosphoinositol biphosphate levels", "D. Inhibiting the inositol triphosphate pathway", "E. Preventing reuptake of serotonin"],
+    correct: 0,
+    explanation: "Haloperidol is a typical (first-generation) antipsychotic. Its primary mechanism is D2 dopamine receptor antagonism in the mesolimbic pathway, treating positive symptoms of schizophrenia. Atypical antipsychotics (risperidone, clozapine) additionally block 5-HT2A, but that is NOT haloperidol's primary action.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q69",
+    text: "What is the mode of action of the drug Selegiline:",
+    options: ["A. Acetylcholine inhibitor", "B. MAO-A inhibitor", "C. MAO-B inhibitor"],
+    correct: 2,
+    explanation: "Selegiline selectively and irreversibly inhibits MAO-B, the main enzyme degrading dopamine in the brain. This increases dopamine availability and is used in Parkinson's. At normal doses it is MAO-B selective; at high doses it loses selectivity. MAO-A breaks down NE and serotonin — phenelzine hits both.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q74",
+    text: "Venlafaxine inhibits:",
+    options: ["A. Serotonin dopamine reuptake", "B. Serotonin reuptake only", "C. Serotonin and norepinephrine reuptake"],
+    correct: 2,
+    explanation: "Venlafaxine is an SNRI — Serotonin-Norepinephrine Reuptake Inhibitor. At low doses it primarily blocks serotonin reuptake; at higher doses it adds norepinephrine reuptake inhibition. It does NOT significantly affect dopamine. Used for depression, anxiety disorders, and neuropathic pain.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q84",
+    text: "What is the most common side effect of Levodopa?",
+    options: ["A. Liver toxicity", "B. Eye dryness", "C. Psychosis", "D. Dyskinesia", "E. Pain in tectum"],
+    correct: 3,
+    explanation: "Long-term levodopa use causes peak-dose dyskinesias — involuntary abnormal movements. This is the most clinically significant long-term side effect. Psychosis can occur but is less common. Dyskinesia results from fluctuating dopamine levels sensitising dopamine receptors over years of treatment.",
+    verify: null
+  },
+  {
+    year: "2019", qNum: "Q97",
+    text: "Patient comes in complaining of hypertension, sweating etc. Which antidepressant was he on?",
+    options: ["A. Phenelzine", "B. Fluoxetine", "C. Amitriptyline", "D. Venlafaxine"],
+    correct: 0,
+    explanation: "Phenelzine is an MAOI. MAOIs can cause hypertensive crisis (from tyramine-rich foods — 'cheese reaction') and excessive adrenergic stimulation. HTN + sweating with an antidepressant = classic MAOI side effect presentation. SSRIs and TCAs do not typically cause hypertensive crises unprovoked.",
+    verify: null
+  },
+
+  // ── 2020 ──
+  {
+    year: "2020", qNum: "Q6",
+    text: "Muhammad Ali, a 75 years old man presented with complaints of gradually worsening tremors in both hands. He also complained of slow movements and difficulty in initiating movements. On examination, he had a stooped posture with shuffling gait. Bilateral pill-rolling tremors were noticed at rest. Cog-wheel rigidity was present in his arms. Based on the diagnosis of Parkinsonism, he was treated with Levodopa and Carbidopa. Muhammad Ali's tremors can be controlled by:",
+    options: ["A. Dopamine agonist", "B. Dopamine precursor", "C. Non-selective beta blocker", "D. Non-selective muscarinic antagonist", "E. Selective catechol-O-methyltransferase inhibitor"],
+    correct: 3,
+    explanation: "Anticholinergic drugs (non-selective muscarinic antagonists like Benztropine) are particularly effective for the resting tremor of PD. When dopamine is depleted, the cholinergic system becomes relatively overactive — blocking muscarinic receptors restores the balance and specifically reduces tremor.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q7",
+    text: "What is the effect of levodopa and carbidopa on the basal nuclei?",
+    options: ["A. Inhibiting the direct and indirect pathway", "B. Activating the direct and indirect pathway", "C. Activating direct and inhibiting the indirect pathway", "D. Activating indirect and inhibiting the direct pathway", "E. No net effect on the direct or indirect pathway"],
+    correct: 2,
+    explanation: "Levodopa replenishes dopamine in the striatum. Dopamine acts on D1 receptors to EXCITE the direct pathway (promotes movement) and on D2 receptors to INHIBIT the indirect pathway (removes movement suppression). Net effect = Activates direct + Inhibits indirect = more movement = treats bradykinesia.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q25",
+    text: "A 28-year-old female presented to the clinic with complication of increasing fatigue, double vision difficulty in swallowing, shortness of breath and difficulty in combing hair for past 2 months. With a clinical suspicion of myasthenia gravis the doctor ordered some tests like tensilon test which confirmed the diagnosis. The patient started on physiostigmine. Acute toxicity with a drug from same class will present with which one of the following symptoms.",
+    options: ["A. Constipation", "B. Miosis", "C. Tachycardia", "D. Dry skin", "E. Urinary retention"],
+    correct: 1,
+    explanation: "AChE inhibitor toxicity = cholinergic crisis = SLUDGE. Miosis (pupil constriction) is the hallmark cholinergic eye sign. All other options (constipation, tachycardia, dry skin, urinary retention) are ANTI-cholinergic effects — the exact opposite of what an AChE inhibitor overdose causes.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q46",
+    text: "A patient named Mr. M. Ali with symptoms of Parkinson's. Which drug was given by his doctor, also named M. Ali, that prevents metabolism of the neurotransmitter involved?",
+    options: ["A. Amantadine", "B. Benztropine", "C. Carbidopa", "D. Levodopa", "E. Selegiline"],
+    correct: 4,
+    explanation: "The neurotransmitter = dopamine. Selegiline inhibits MAO-B = inhibits dopamine metabolism = more dopamine available. Carbidopa inhibits peripheral decarboxylation of levodopa (not the same as dopamine metabolism in the brain). Amantadine increases dopamine release. Benztropine is anticholinergic.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q61/62",
+    text: "Match the following — Lithium (Q61) and Valproic Acid (Q62) to their appropriate lab tests: A. TSH  B. LFTs  C. Heme  D. Blood Glucose",
+    options: ["A. Lithium → TSH, Valproic Acid → LFTs", "B. Lithium → LFTs, Valproic Acid → TSH", "C. Lithium → Blood Glucose, Valproic Acid → Heme", "D. Lithium → Heme, Valproic Acid → LFTs"],
+    correct: 0,
+    explanation: "Lithium causes hypothyroidism → monitor TSH. It also causes nephrogenic DI → monitor renal function. Valproic acid is hepatotoxic → monitor LFTs. VPA also causes thrombocytopaenia → FBC. These monitoring parameters are high-yield exam facts.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q68",
+    text: "A 25-year-old female epileptic who is concerned about gaining weight has to be given medication, keeping her concerns in consideration, a drug is prescribed that acts by",
+    options: ["A. Activating GABA receptors", "B. Blockade of NMDA receptors", "C. Blockade of AMPA receptors", "D. Decreasing sodium conductance", "E. Increasing calcium conductance"],
+    correct: 1,
+    explanation: "The drug causing weight LOSS in epilepsy is Topiramate or Felbamate. Topiramate blocks AMPA/kainate receptors and NMDA receptors in addition to other mechanisms. Among the options provided, blockade of NMDA receptors fits this drug class. It is also used for migraine prevention.",
+    verify: "This question is ambiguous. Topiramate primarily blocks AMPA/kainate, but also has NMDA effects. Verify which mechanism your course specifically highlights for the weight-loss AED."
+  },
+  {
+    year: "2020", qNum: "Q70",
+    text: "15 y/o girl comes to clinic. She has generalized tonic-clonic seizures. Given an antiepileptic agent having a similar mechanism of action to:",
+    options: ["A. Ethosuximide", "B. Carbamazepine", "C. Valproic acid", "D. Physostigmine", "E. Phenobarbital"],
+    correct: 1,
+    explanation: "For generalised tonic-clonic seizures, the likely drug is Phenytoin or Carbamazepine — both are Na⁺ channel blockers. Ethosuximide only blocks T-type Ca²⁺ channels (absence seizures). Phenobarbital enhances GABA duration. The 'similar mechanism' = Na channel blockade = Carbamazepine.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q82",
+    text: "A patient comes to the clinic with depression and glaucoma and past history of urinary retention, dry mouth, mild constipation and tachycardia. The doctor changed drug to a new one. Which drug had she been using?",
+    options: ["A. Amitriptyline", "B. Fluoxetine", "C. Citalopram"],
+    correct: 0,
+    explanation: "Classic TCA (amitriptyline) question. Anticholinergic side effects + glaucoma + depression = patient was on TCA. Doctor switches away from it because TCAs are contraindicated in glaucoma and BPH. Fluoxetine/Citalopram (SSRIs) do not cause these anticholinergic effects.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q90",
+    text: "How is lithium primarily administered?",
+    options: ["A. Intradermally", "B. Intramuscularly", "C. Intravenously", "D. Orally", "E. Subcutaneous"],
+    correct: 3,
+    explanation: "Lithium is only available orally (lithium carbonate/citrate tablets). This question is asked in 2018, 2020, and 2021. The answer is always oral. Its narrow therapeutic index makes IV administration dangerous.",
+    verify: null
+  },
+  {
+    year: "2020", qNum: "Q91",
+    text: "What is the main treatment for myasthenia gravis?",
+    options: ["A. Memantine", "B. Physostigmine", "C. Neostigmine", "D. Pyridostigmine", "E. Galantamine"],
+    correct: 3,
+    explanation: "Pyridostigmine is the preferred long-term treatment for MG — quaternary amine, does not cross BBB, longer duration. Neostigmine is used acutely/perioperatively. Physostigmine crosses BBB (not preferred for MG, used for anticholinergic toxicity). Memantine/Galantamine are for Alzheimer's.",
+    verify: "2020 context may expect Neostigmine as 'main treatment' in some curricula. 2022 Q47 specifically marks Pyridostigmine. Both are valid — confirm what your course taught."
+  },
+
+  // ── 2021 ──
+  {
+    year: "2021", qNum: "Q1",
+    text: "What is the secondary messenger system of Haloperidol?",
+    options: ["A. Increase cAMP levels", "B. No secondary messenger effect", "C. Activates G protein coupled receptors", "D. Decreases cAMP levels"],
+    correct: 0,
+    explanation: "D2 receptors are Gi-coupled → normally reduce cAMP. Haloperidol BLOCKS D2, preventing this Gi-mediated cAMP reduction. So cAMP levels are relatively INCREASED (disinhibition of adenylyl cyclase). Key concept: D2 = Gi = decrease cAMP. Block D2 (haloperidol) = prevent cAMP decrease = cAMP relatively increases.",
+    verify: "The original totes options for this question were non-standard/humorous. Pharmacologically, D2 blockade → cAMP disinhibition → relative increase. Verify the exact phrasing your professor uses."
+  },
+  {
+    year: "2021", qNum: "Q4/5 (Match)",
+    text: "Match the following drugs with their mechanism of action:\n4. Diazepam\n5. Valproic acid\nA. Blockage of voltage-gated Na channels\nB. Blockage of Ca channels\nC. Increasing the frequency of the Cl channel opening",
+    options: ["A. Diazepam → C (Cl channel), Valproic acid → A (Na channel)", "B. Diazepam → A (Na channel), Valproic acid → C (Cl channel)", "C. Diazepam → B (Ca channel), Valproic acid → A (Na channel)", "D. Diazepam → C (Cl channel), Valproic acid → B (Ca channel)"],
+    correct: 0,
+    explanation: "Diazepam = increases frequency of Cl⁻ channel opening via GABA-A (matches C). Valproic acid = multi-modal: blocks Na channels (primary tested mechanism = A), also blocks T-Ca channels, and increases GABA. In a matching, Na channel blockade is the most commonly expected answer for valproate.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q8",
+    text: "Haloperidol has its affect by:",
+    options: ["A. Antagonizing D2 receptors", "B. Inhibiting HT-2A receptors", "C. Inhibiting serotonin reuptake", "D. Inhibiting the formation of PIP2"],
+    correct: 0,
+    explanation: "Haloperidol = typical antipsychotic = D2 receptor antagonist. This is the primary mechanism. 5-HT2A blockade is a feature of atypical antipsychotics (clozapine, risperidone, olanzapine) — NOT haloperidol's primary action. Asked in 2019, 2021, 2022.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q12",
+    text: "Carbidopa is given with Levodopa for:",
+    options: ["A. Directly stimulating dopamine receptor", "B. Enhancing the synthesis of dopamine", "C. Selectively inhibiting Monoamine oxidase B", "D. Reducing peripheral metabolism of levodopa", "E. Increasing the peripheral uptake of levodopa"],
+    correct: 3,
+    explanation: "Carbidopa inhibits peripheral DOPA decarboxylase (aromatic amino acid decarboxylase). Without it, levodopa is converted to dopamine in the periphery before reaching the brain (dopamine cannot cross the BBB). Carbidopa prevents this peripheral conversion, allowing more levodopa to reach the brain, reducing peripheral side effects (nausea, cardiac arrhythmias).",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q13",
+    text: "When Carbidopa and Levodopa are administered, what effect would they have on the function of the basal ganglia?",
+    options: ["A. Inhibiting the direct and indirect pathway", "B. Activating the direct and indirect pathway", "C. Activating direct and inhibiting the indirect pathway", "D. Activating indirect and inhibiting the direct pathway", "E. No net effect on the direct or indirect pathway"],
+    correct: 2,
+    explanation: "Same concept as 2020 Q7. Dopamine → D1 receptors excite the direct pathway (movement). Dopamine → D2 receptors inhibit the indirect pathway (removes suppression of movement). Levodopa/Carbidopa → Activates Direct + Inhibits Indirect = facilitates normal movement.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q44",
+    text: "A man noticed an improvement in his sex life after taking a certain drug for depression. Previously he suffered from premature ejaculation. What is the name of the drug he used?",
+    options: ["A. Fluoxetine", "B. Bupropion", "C. Amantadine", "D. Phenelzine", "E. Pentobarbital"],
+    correct: 0,
+    explanation: "Fluoxetine (SSRI) causes delayed ejaculation as a side effect — clinically used to treat premature ejaculation. Bupropion is the antidepressant known for having the LEAST sexual side effects. This question appeared in 2018 and 2021.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q50",
+    text: "A patient with controlled Myasthenia gravis presents to the ER with seizures, confusion and seeing things. What drug is she on?",
+    options: ["A. Edrophonium", "B. Physostigmine", "C. Pyridostigmine"],
+    correct: 1,
+    explanation: "The CNS toxicity (seizures, confusion, hallucinations) points to physostigmine — the ONLY AChE inhibitor that crosses the blood-brain barrier (tertiary amine, lipid-soluble). Pyridostigmine and neostigmine are quaternary amines and cannot cross the BBB, so they cause no CNS effects.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q53",
+    text: "18-year-old girl came to the hospital with Paranoid delusions and auditory hallucinations. She was started on Medications. Her symptoms improved but she started experiencing Involuntary muscle contraction and would turn her neck to one side. What was the medication given to her?",
+    options: ["A. Alpha adrenergic blocker", "B. Muscarinic blocker", "C. Histamine blocker", "D. Dopamine blocker", "E. Serotonin blocker"],
+    correct: 3,
+    explanation: "Same theme as 2017 Q12 and 2022 Q60. Psychosis treated → involuntary neck movements (acute dystonia / torticollis) = extrapyramidal side effect from D2 dopamine receptor blockade in the nigrostriatal pathway. The drug is an antipsychotic = dopamine blocker.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q58",
+    text: "Patient has serotonin syndrome. She self-medicates with fluoxetine and also takes drug X for depression. Drug X is?",
+    options: ["A. Bupropion", "B. Midazolam", "C. Trazodone", "D. Phenelzine", "E. Duloxetine"],
+    correct: 3,
+    explanation: "Serotonin syndrome = excess serotonin. Fluoxetine (SSRI) blocks serotonin reuptake. Adding Phenelzine (MAOI) prevents serotonin breakdown → massive serotonin accumulation → serotonin syndrome (hyperthermia, agitation, clonus, diaphoresis). SSRI + MAOI is one of the most dangerous drug interactions in medicine. Never combine.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q64",
+    text: "How is lithium primarily administered?",
+    options: ["A. Intradermally", "B. Intramuscularly", "C. Intravenously", "D. Orally", "E. Subcutaneous"],
+    correct: 3,
+    explanation: "Recurring question — lithium is always oral. Third time this question appears (2018, 2020, 2021).",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q65/92",
+    text: "Bupropion is a weak reuptake inhibitor of?",
+    options: ["A. Serotonin and norepinephrine", "B. Dopamine and norepinephrine", "C. Serotonin and epinephrine", "D. Serotonin and norepinephrine"],
+    correct: 1,
+    explanation: "Bupropion = NDRI — Norepinephrine and Dopamine Reuptake Inhibitor. It has minimal effect on serotonin. This gives it key advantages: no sexual dysfunction, weight loss (not gain), and FDA approval for smoking cessation (Zyban). It also lowers the seizure threshold at high doses.",
+    verify: null
+  },
+  {
+    year: "2021", qNum: "Q105",
+    text: "Overdose of lithium will most likely affect concentration of?",
+    options: ["A. Magnesium", "B. Sodium", "C. Potassium", "D. Calcium", "E. Chloride"],
+    correct: 1,
+    explanation: "Lithium (Li⁺) mimics sodium (Na⁺) due to similar ionic properties. The kidneys handle lithium like sodium — in low sodium states (dehydration, diuretics, low-Na diet), the kidneys reabsorb MORE lithium → toxicity. Lithium toxicity is always linked to sodium depletion. Lithium toxicity signs: coarse tremor, confusion, ataxia, arrhythmias.",
+    verify: null
+  },
+
+  // ── 2022 ──
+  {
+    year: "2022", qNum: "Q3",
+    text: "Lithium effect?",
+    options: ["A. Less IP3 in post synaptic neuron", "B. More IP3 in post synaptic neuron", "C. Less cAMP in pre synaptic neuron", "D. More PIP2 in post synaptic neuron"],
+    correct: 0,
+    explanation: "Lithium inhibits inositol monophosphatase → less inositol recycled → less PIP2 synthesised → phospholipase C has less substrate → less IP3 and DAG produced. So lithium decreases IP3 levels post-synaptically. This inositol depletion hypothesis underpins its mood-stabilising effect.",
+    verify: null
+  },
+  {
+    year: "2022", qNum: "Q7",
+    text: "Classify fluoxetine:",
+    options: ["A. Serotonin norepinephrine reuptake inhibitor (SNRI)", "B. Serotonin reuptake inhibitor (SSRI)"],
+    correct: 1,
+    explanation: "Fluoxetine is a Selective Serotonin Reuptake Inhibitor (SSRI). It selectively blocks SERT without significantly affecting NE or DA. Venlafaxine = SNRI. Bupropion = NDRI. Amitriptyline = TCA. The 'serotonin norepinephrine' option (SNRI) is wrong for fluoxetine.",
+    verify: null
+  },
+  {
+    year: "2022", qNum: "Q10/11 (Match)",
+    text: "Mode of Action of:\n10. Ethosuximide\n11. Valproic acid\nOptions: a. Inhibition of Sodium Channels  b. Inhibition of Calcium Channels  c. Increase in action of GABA",
+    options: ["A. Ethosuximide → b (Ca channels), Valproic acid → a (Na channels)", "B. Ethosuximide → a (Na channels), Valproic acid → b (Ca channels)", "C. Ethosuximide → c (GABA), Valproic acid → a (Na channels)", "D. Ethosuximide → b (Ca channels), Valproic acid → c (GABA)"],
+    correct: 0,
+    explanation: "Ethosuximide selectively blocks T-type (thalamic low-threshold) Ca²⁺ channels — this is its ONLY mechanism. Used ONLY for absence seizures. Valproic acid is broad spectrum: blocks Na channels, blocks T-Ca channels, and increases GABA. In matching, Na channel blockade is most commonly expected for valproate.",
+    verify: null
+  },
+  {
+    year: "2022", qNum: "Q29",
+    text: "What's the half-life of triazolam?",
+    options: ["A. 1–2 hours", "B. 3–8 hours", "C. 10–20 hours", "D. 20–100 hours"],
+    correct: 1,
+    explanation: "Triazolam is a short-acting benzodiazepine (half-life ~2–5 hours; with metabolites ~3–8 hours). Used for sleep-onset insomnia. Compare: Diazepam (long-acting, 20–100h), Lorazepam (intermediate, 10–20h), Midazolam/Triazolam (short-acting).",
+    verify: null
+  },
+  {
+    year: "2022", qNum: "Q47",
+    text: "Mainstay drug for Myasthenia gravis:",
+    options: ["A. Memantine", "B. Galantamine", "C. Neostigmine", "D. Pyridostigmine", "E. Physostigmine"],
+    correct: 3,
+    explanation: "Pyridostigmine is the preferred long-term mainstay treatment for MG. It is an AChE inhibitor (quaternary amine, no BBB crossing). Neostigmine is shorter-acting and used more acutely. Physostigmine crosses BBB (CNS side effects, not ideal for MG). Memantine and Galantamine are for Alzheimer's.",
+    verify: null
+  },
+  {
+    year: "2022", qNum: "Q60",
+    text: "Patient (girl) had paranoid disorder + hallucinations. Given a drug to treat it. Neck spasm started on right side noticed by a nurse. What was the drug?",
+    options: ["A. Haloperidol (D2 Receptor Blocker)", "B. Fluoxetine (SSRI)", "C. Amitriptyline (TCA)", "D. Lithium (Mood Stabiliser)"],
+    correct: 0,
+    explanation: "Recurring theme — 4th time this scenario appears. Antipsychotic (Haloperidol) → treats psychosis via D2 blockade → causes acute dystonia (neck spasm = torticollis) from D2 blockade in the nigrostriatal pathway. Haloperidol is the classic answer for EPS in exam scenarios.",
+    verify: null
+  },
+
+  // ── 2023 ──
+  {
+    year: "2023", qNum: "Q3",
+    text: "Rivastigmine is a drug used for Alzheimer's. Which of the following is the reason for its effect:",
+    options: ["A. Prevents breakdown of ACH", "B. Increases synthesis of ACH", "C. Interferes with NMDA receptors that causes excitotoxicity", "D. Acts to increase the breakdown of ACH", "E. Inhibits ACH receptors in the brain"],
+    correct: 0,
+    explanation: "Rivastigmine is an acetylcholinesterase (AChE) inhibitor — it prevents ACh breakdown, increasing its availability at cholinergic synapses. In Alzheimer's, cholinergic neurons are lost; AChE inhibitors compensate. Rivastigmine also inhibits butyrylcholinesterase. Option C describes Memantine's mechanism (NMDA antagonist), not rivastigmine.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q5",
+    text: "A man comes into your clinic after symptoms of depression and you prescribe the first line therapeutic fluoxetine. As a doctor you know that this drug increases the levels of a certain neurotransmitter at the synaptic cleft. Which of the following amino acids is the precursor for this neurotransmitter?",
+    options: ["A. Tyrosine", "B. Phenylalanine", "C. Histidine", "D. Tryptophan", "E. Alanine"],
+    correct: 3,
+    explanation: "Fluoxetine increases serotonin (5-HT). Serotonin is synthesised from Tryptophan (essential amino acid): Tryptophan → 5-HTP → Serotonin. Tyrosine is the precursor for dopamine/NE/epinephrine. Histidine → histamine. Memory trick: Try-p-tophan → Serotonin.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q12",
+    text: "An elderly man was taken to the ER after he started having hallucinations and delirium. Family reported the history of Myasthenia Gravis. Patient had mistakenly taken herbal medicine for a cold 2 hours ago. Examination revealed that the patient had dry mouth, flushed skin and tachycardia. Which of the following drugs will prevent the condition?",
+    options: ["A. Ambenonium", "B. Edrophonium", "C. Pyridostigmine", "D. Neostigmine", "E. Physostigmine"],
+    correct: 4,
+    explanation: "The herbal medicine contained an anticholinergic (atropine-like) substance → anticholinergic toxidrome: dry mouth, flushed skin, tachycardia, hallucinations, mydriasis. Treatment = Physostigmine — the ONLY AChE inhibitor that crosses the BBB. It reverses both central (hallucinations, delirium) and peripheral anticholinergic toxicity. Neostigmine/pyridostigmine only work peripherally.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q29",
+    text: "A girl comes with symptoms of myasthenia gravis. Given Pyridostigmine and Prednisone. Also given Azathioprine. She shows initial improvement. However she comes back a few days with the same symptoms. Symptoms do not improve with AchE inhibitor. Reason?",
+    options: ["A. Antibody against pyridostigmine", "B. Excess ACh in cleft (cholinergic crisis)", "C. Tolerance to drug", "D. Improper administration of drug"],
+    correct: 1,
+    explanation: "This is a cholinergic crisis — paradoxical worsening from too much AChE inhibitor. Excess ACh causes sustained depolarisation at the NMJ (depolarising block), mimicking MG weakness. The Tensilon test differentiates: MG crisis → improves with edrophonium; Cholinergic crisis → worsens/no change. Treatment = stop AChE inhibitor + atropine.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q33",
+    text: "A smoker is attempting to quit, but he returns to the clinic 2 days later complaining of severe withdrawal. As such, the doctor prescribes a medicine that can aid in his complaints. Which drug could it be?",
+    options: ["A. Bupropion", "B. Venlafaxine", "C. Amitriptyline", "D. Fluoxetine", "E. Diazepam"],
+    correct: 0,
+    explanation: "Bupropion (Zyban) is FDA-approved for smoking cessation. It reduces nicotine craving and withdrawal symptoms by blocking DA and NE reuptake. Varenicline (partial nicotine receptor agonist) is another option but not listed. Bupropion is a dual-use drug: treats depression AND helps with smoking cessation.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q43",
+    text: "A patient is on chronic lithium treatment for bipolar disorder. What would the effect be on IP3 levels? What is the ratio of IP3 to PIP2?",
+    options: ["A. Increased, Same", "B. Decreased, Same", "C. Decreased, Decreased", "D. Same, Increased"],
+    correct: 2,
+    explanation: "Lithium → inhibits inositol phosphatase → less inositol recycled → less PIP2 synthesised (substrate depleted) → less PLC activity → less IP3 produced. Both IP3 and PIP2 decrease. PIP2 falls more (as substrate), so the IP3:PIP2 ratio would also decrease.",
+    verify: "Some sources interpret the ratio differently. Core concept: lithium depletes inositol → less PIP2 → less IP3. Both decrease."
+  },
+  {
+    year: "2023", qNum: "Q45",
+    text: "Miser Hungry Areeb, who is already a patient of atypical depression and prescribed phenelzine, forced his innocent friend Ali Tayyab for a pizza treat. However, Ali G smartly took him to a bad restaurant and Areeb ended up in ER with blood pressure of 210/200 mm Hg. What part of the pizza was responsible for Areeb's condition?",
+    options: ["A. Cheese", "B. Chicken", "C. Green chilli", "D. Olives", "E. Pizza bread"],
+    correct: 0,
+    explanation: "Classic 'cheese reaction' with MAOIs. Phenelzine inhibits MAO, which normally breaks down tyramine in the gut and liver. With MAOI on board, tyramine from aged CHEESE accumulates → massive norepinephrine release → hypertensive crisis (BP 210/200!). Other high-tyramine foods: red wine, cured meats, fermented foods.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q46",
+    text: "Mr Fraud who is a patient of epilepsy had been prescribed a medication by Dr Qaari. After 2 months he was forced to present with complaint of looking terrible due to large gums whenever he smiled. What medication had he been prescribed?",
+    options: ["A. Carbamazepine", "B. Ethosuximide", "C. Lamotrigine", "D. Phenytoin", "E. Valproic acid"],
+    correct: 3,
+    explanation: "Gingival hyperplasia (large gums) is the pathognomonic side effect of Phenytoin. Other phenytoin SEs: hirsutism, coarsening of facial features, folate deficiency, nystagmus, ataxia, fetal hydantoin syndrome. Good oral hygiene reduces gingival hyperplasia but does not eliminate it.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q52",
+    text: "A 27-year-old woman presents to the clinic with generalized seizures. Before prescribing an anti-epileptic, the doctor checks for pregnancy. Which of the following drugs are avoided due to the risk of neural tube defects?",
+    options: ["A. Carbamazepine", "B. Phenytoin", "C. Divalproex Sodium", "D. Ethosuximide", "E. Lamotrigine"],
+    correct: 2,
+    explanation: "Divalproex Sodium (Valproic Acid) is the MOST teratogenic common antiepileptic — causes spina bifida (neural tube defect), fetal valproate syndrome. It is the #1 drug to avoid in women of childbearing age if alternatives exist. Lamotrigine and Levetiracetam are safest in pregnancy. Carbamazepine also causes NTDs but less severely.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q67",
+    text: "An old man presents to your clinic complaining of dizziness, headache and generalized pain. His history shows that he is an epileptic who suffers from generalized seizures. He reveals that he is taking medicine for his condition, but his symptoms began 2 days ago when he was unable to take his meals properly. You realize he is suffering from a common adverse effect of the following anti-epileptic drug:",
+    options: ["A. Diazepam", "B. Thiopental", "C. Ethosuximide", "D. Valproic Acid", "E. Carbamazepine"],
+    correct: 3,
+    explanation: "Valproic acid is well-known for GI side effects (nausea, vomiting, abdominal pain, anorexia) especially when taken without food. Inability to eat properly → exacerbated GI side effects. Other VPA SEs: weight gain, hair loss, thrombocytopaenia, hepatotoxicity, tremor.",
+    verify: "Carbamazepine can also cause dizziness/ataxia. GI symptoms when not eating → points to VPA. Dizziness/ataxia alone → could be carbamazepine. Verify based on full clinical context."
+  },
+  {
+    year: "2023", qNum: "Q110",
+    text: "A man presented to ER with status epilepticus. Which drug would you administer as treatment?",
+    options: ["A. Carbamazepine", "B. Diazepam", "C. Valproic Acid", "D. Ethosuximide", "E. Lamotrigine"],
+    correct: 1,
+    explanation: "Benzodiazepines (diazepam or lorazepam) are first-line for status epilepticus. They rapidly potentiate GABA-A, stopping seizures quickly. Second-line: phenytoin/fosphenytoin. Third-line: phenobarbital or general anaesthesia. Carbamazepine, valproic acid, ethosuximide, lamotrigine are chronic oral agents — not ER acute drugs.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q16 (Match)",
+    text: "Which drug is peripherally broken down by a 60-year-old man taking Vitamin B6 medications?",
+    options: ["A. Levodopa", "B. Carbidopa", "C. Venlafaxine", "D. Mirtazapine", "E. Selegiline"],
+    correct: 0,
+    explanation: "Levodopa is converted to dopamine peripherally by DOPA decarboxylase, which requires Vitamin B6 (pyridoxine) as a cofactor. Extra B6 → more peripheral conversion of levodopa to dopamine → less levodopa reaches the brain → reduced therapeutic effect. That is why levodopa should be given with carbidopa and patients should avoid high B6 supplements.",
+    verify: null
+  },
+  {
+    year: "2023", qNum: "Q17 (Match)",
+    text: "Which of the following is contraindicated in patients with glaucoma?",
+    options: ["A. Levodopa", "B. Carbidopa", "C. Venlafaxine", "D. Mirtazapine", "E. Amantadine", "F. Benztropine", "G. Bromocriptine", "H. Selegiline"],
+    correct: 5,
+    explanation: "Benztropine is an anticholinergic (muscarinic blocker). Anticholinergics cause mydriasis (pupil dilation) which can precipitate acute angle-closure glaucoma by blocking aqueous humor outflow. Therefore ALL anticholinergics are CONTRAINDICATED in narrow-angle glaucoma. Benztropine is the anticholinergic in this list.",
+    verify: null
+  },
+
+  // ── 2024 ──
+  {
+    year: "2024", qNum: "Q11",
+    text: "A 36-year-old woman is having seizures and epilepsy, and she would like to start taking medications for it. She is also planning to have a child, but the doctor advises against it. Carbamazepine was prescribed. What teratogenic effect may be caused by this drug?",
+    options: ["A. Neural tube defects", "B. Upper limb defects", "C. Genitourinary defects", "D. Cardiotoxicity", "E. Omphalocele"],
+    correct: 0,
+    explanation: "Carbamazepine causes neural tube defects (spina bifida, anencephaly) similar to valproic acid. All pregnant women on antiepileptics should take folic acid supplementation. Teratogenicity ranking for NTDs: Valproate (worst) > Carbamazepine > Phenytoin (hydantoin syndrome — limb/facial defects, not NTD).",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q12",
+    text: "What is the mode of action of this drug? (Carbamazepine)",
+    options: ["A. Sodium channel blocker", "B. Voltage-gated calcium channel blocker", "C. Ligand-gated calcium channel blocker", "D. Chloride channel blocker", "E. NMDA receptor antagonist"],
+    correct: 0,
+    explanation: "Carbamazepine is a voltage-gated Na⁺ channel blocker (same class as phenytoin). It stabilises the inactivated state of Na channels, reducing repetitive firing. Used for: partial seizures, GTC, trigeminal neuralgia, bipolar disorder. Ethosuximide = Ca channel blocker (T-type). Diazepam = Cl channel enhancer.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q20",
+    text: "What is the mechanism of action of valproic acid?",
+    options: ["A. Increase cAMP on pre synaptic", "B. Decrease cAMP on pre synaptic", "C. Increase cAMP on post synaptic", "D. Increase IP3 on post synaptic", "E. Decrease IP3 on pre synaptic"],
+    correct: 4,
+    explanation: "Valproic acid decreases IP3 signalling via the inositol depletion mechanism (similar to lithium, but less prominent). Its primary mechanisms are Na⁺ channel blockade and GABA enhancement, but in this option set, 'decrease IP3' is the best available answer relating to its secondary messenger effects.",
+    verify: "Valproic acid's PRIMARY mechanism is Na channel blockade + GABA enhancement. If the exam asks for primary MOA, answer that. 'Decrease IP3' is a secondary mechanism. Check your course notes for what's emphasised."
+  },
+  {
+    year: "2024", qNum: "Q38",
+    text: "Lithium causes change in which ion",
+    options: ["A. Cl", "B. Ca", "C. Na", "D. Mg", "E. K"],
+    correct: 2,
+    explanation: "Lithium (Li⁺) mimics Na⁺ due to similar charge and ionic radius. In renal tubules, lithium competes with sodium. Sodium depletion → kidneys retain more lithium → toxicity. This explains why thiazide diuretics and dehydration increase lithium toxicity risk.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q75",
+    text: "Bupropion is a weak:",
+    options: ["A. Norepinephrine and serotonin reuptake inhibitor", "B. Norepinephrine and dopamine reuptake inhibitor", "C. Dopamine and serotonin reuptake inhibitor", "D. Epinephrine and dopamine reuptake inhibitor", "E. Epinephrine and serotonin reuptake inhibitor"],
+    correct: 1,
+    explanation: "Bupropion = NDRI (Norepinephrine and Dopamine Reuptake Inhibitor). No significant serotonin effect. This is its key differentiating feature from SSRIs/SNRIs. Advantages: no sexual dysfunction, weight loss, smoking cessation. Risk: lowers seizure threshold at high doses.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q87",
+    text: "A 15-year-old child has OCD which is the drug of choice?",
+    options: ["A. Amitriptyline", "B. Phenelzine", "C. Bupropion", "D. Venlafaxine", "E. Fluoxetine"],
+    correct: 4,
+    explanation: "SSRIs are first-line for OCD in children and adults. Fluoxetine is FDA-approved for OCD in children (≥7 years). Higher doses are required than for depression. TCAs (clomipramine) are second-line. Phenelzine (MAOI) is not used for OCD. Bupropion is not indicated for OCD.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q88",
+    text: "A smoker wants to quit. Which drug?",
+    options: ["A. Fluoxetine", "B. Bupropion", "C. Venlafaxine", "D. Phenelzine", "E. Carbamazepine"],
+    correct: 1,
+    explanation: "Bupropion (Zyban) is approved for smoking cessation — reduces craving and withdrawal by blocking DA and NE reuptake. This is the same question as 2023 Q33. Varenicline is more effective but not in this list. Fluoxetine and venlafaxine have no smoking cessation indication.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q89",
+    text: "Person with Parkinson's comes to the clinic with dry mouth, constipation, prostatic hypertension and mydriasis. Which drug is contraindicated in this patient?",
+    options: ["A. Benztropine", "B. Levodopa", "C. Selegiline", "D. Tolcapone", "E. Amantadine"],
+    correct: 0,
+    explanation: "The patient already has anticholinergic symptoms (dry mouth, constipation, urinary retention from BPH, mydriasis). Benztropine is an anticholinergic — giving it would WORSEN all these symptoms and could precipitate acute urinary retention and glaucoma. Levodopa, selegiline, tolcapone, and amantadine are safe here.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q90",
+    text: "Person has anxiety with tachycardia, sweating and hyperventilation. Which drug should not be prescribed to the patient?",
+    options: ["A. Phenelzine", "B. Bupropion", "C. Venlafaxine", "D. Prochlorperazine", "E. Amitriptyline"],
+    correct: 0,
+    explanation: "Phenelzine (MAOI) is contraindicated: it increases adrenergic/sympathomimetic effects → worsens tachycardia and sweating. MAOIs interact dangerously with many drugs, anaesthetics, and foods, causing hypertensive crises. In a patient with anxiety and sympathetic overactivation, MAOIs are the most dangerous option.",
+    verify: "Venlafaxine (SNRI) can also increase blood pressure/heart rate, making it somewhat risky. But Phenelzine (MAOI) is the most contraindicated and dangerous choice."
+  },
+  {
+    year: "2024", qNum: "Q91",
+    text: "Which neurotransmitter is involved in antidepressant therapy?",
+    options: ["A. Serotonin", "B. Norepinephrine", "C. ACh", "D. Epinephrine", "E. Glutamate"],
+    correct: 0,
+    explanation: "Serotonin is the primary neurotransmitter targeted by antidepressants (SSRIs, SNRIs, TCAs, MAOIs). Norepinephrine is also targeted (SNRIs, TCAs, bupropion). If one answer is required, serotonin is the most classically and specifically associated with antidepressant therapy.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q92",
+    text: "Guy with hypertension has pheochromocytoma. Which antidepressant shouldn't be given",
+    options: ["A. Amitriptyline", "B. Venlafaxine", "C. Phenelzine", "D. Fluoxetine", "E. Bupropion"],
+    correct: 2,
+    explanation: "Phaeochromocytoma secretes catecholamines (epinephrine/NE). MAOIs (phenelzine) prevent breakdown of these catecholamines → massive catecholamine surge → life-threatening hypertensive crisis. Phenelzine is absolutely contraindicated in phaeochromocytoma. Also, sympathomimetics + MAOIs = lethal interaction.",
+    verify: null
+  },
+  {
+    year: "2024", qNum: "Q93",
+    text: "An elderly guy with cholesterol had atherosclerosis?",
+    options: ["A. Haloperidol", "B. Benztropine", "C. Risperidone", "D. Prochlorperazine", "E. Rivastigmine"],
+    correct: 4,
+    explanation: "Atherosclerosis is a risk factor for vascular dementia and Alzheimer's disease. Rivastigmine is an AChE inhibitor used to treat Alzheimer's/dementia. The other options are antipsychotics or anticholinergics with no dementia indication. Rivastigmine = Alzheimer's treatment = correct for a dementia scenario.",
+    verify: "The connection between atherosclerosis and drug choice is indirect — the question implies vascular dementia or Alzheimer's. Verify the full clinical context from your totes."
+  }
+];
+
+// ── STATE ──
+let current = 0;
+let score = 0;
+let answered = 0;
+let answered_arr = new Array(QUESTIONS.length).fill(false);
+
+function render() {
+  const q = QUESTIONS[current];
+  document.getElementById('q-year').textContent = q.year;
+  document.getElementById('q-num').textContent = `Question ${current + 1} of ${QUESTIONS.length} · ${q.qNum}`;
+  document.getElementById('q-text').textContent = q.text;
+
+  // options
+  const container = document.getElementById('options');
+  container.innerHTML = '';
+  const letters = ['A','B','C','D','E','F','G','H'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span><span class="result-badge"></span>`;
+    if (!answered_arr[current]) {
+      btn.addEventListener('click', () => choose(i, btn));
+    } else {
+      applyPreviousState(btn, i, q);
+      btn.classList.add('disabled');
+    }
+    container.appendChild(btn);
+  });
+
+  // feedback
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.style.display = '';
+  if (answered_arr[current]) {
+    showFeedback(q);
+  }
+
+  // next button
+  const btnNext = document.getElementById('btn-next');
+  btnNext.disabled = !answered_arr[current];
+  btnNext.textContent = current === QUESTIONS.length - 1 ? 'Finish ✓' : 'Next →';
+
+  // progress
+  const pct = Math.round((current / QUESTIONS.length) * 100);
+  document.getElementById('progress-text').textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  // score
+  document.getElementById('live-score').textContent = `${score} / ${answered}`;
+
+  // re-animate card
+  const card = document.getElementById('card');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = '';
+}
+
+function applyPreviousState(btn, idx, q) {
+  // we don't track chosen per question, so just highlight correct
+  if (idx === q.correct) btn.classList.add('missed');
+}
+
+function choose(idx, btn) {
+  if (answered_arr[current]) return;
+  const q = QUESTIONS[current];
+  answered_arr[current] = true;
+  answered++;
+
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.classList.add('disabled'));
+
+  if (idx === q.correct) {
+    score++;
+    btn.classList.add('correct');
+    btn.querySelector('.result-badge').textContent = '✓ Correct';
+  } else {
+    btn.classList.add('wrong');
+    btn.querySelector('.result-badge').textContent = '✗ Wrong';
+    buttons[q.correct].classList.add('missed');
+    buttons[q.correct].querySelector('.result-badge').textContent = '✓ Correct';
+  }
+
+  showFeedback(q, idx === q.correct);
+  document.getElementById('btn-next').disabled = false;
+  document.getElementById('live-score').textContent = `${score} / ${answered}`;
+}
+
+function showFeedback(q, wasCorrect) {
+  const fb = document.getElementById('feedback');
+  const header = document.getElementById('fb-header');
+  const body = document.getElementById('fb-body');
+
+  const correct = wasCorrect !== undefined ? wasCorrect : true;
+  fb.className = 'feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+
+  header.textContent = correct ? '✓  Correct!' : '✗  Incorrect';
+
+  let html = `<div class="feedback-label">Explanation</div><p>${q.explanation}</p>`;
+  if (q.verify) {
+    html += `<div class="verify-note"><strong>⚠ Verify:</strong> ${q.verify}</div>`;
+  }
+  body.innerHTML = html;
+}
+
+document.getElementById('btn-next').addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1) {
+    current++;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    showResults();
+  }
+});
+
+function showResults() {
+  document.getElementById('quiz-area').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  const wrong = QUESTIONS.length - score;
+
+  let icon = '🎓', msg = '';
+  if (pct >= 85) { icon = '🏆'; msg = 'Outstanding! You are exam-ready.'; }
+  else if (pct >= 70) { icon = '🎓'; msg = 'Great job! Review the ones you missed.'; }
+  else if (pct >= 50) { icon = '📖'; msg = 'Good effort — keep reviewing!'; }
+  else { icon = '💪'; msg = 'Keep going — you\'ll get there!'; }
+
+  document.getElementById('results-icon').textContent = icon;
+  document.getElementById('results-score').textContent = `${score}/${QUESTIONS.length}`;
+  document.getElementById('results-sub').textContent = `${pct}% — ${msg}`;
+  document.getElementById('stat-correct').textContent = `✓ ${score} Correct`;
+  document.getElementById('stat-wrong').textContent = `✗ ${wrong} Wrong`;
+}
+
+function restart() {
+  current = 0; score = 0; answered = 0;
+  answered_arr = new Array(QUESTIONS.length).fill(false);
+  document.getElementById('quiz-area').style.display = 'block';
+  document.getElementById('results-screen').style.display = 'none';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// init
+render();
+</script>
+</body>
+</html>
